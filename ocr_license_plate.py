@@ -4,7 +4,7 @@ from imutils import paths
 import argparse
 import imutils
 import cv2
-
+import time
 def cleanup_text(text):
 	# strip out non-ASCII text so we can draw the text on the image
 	# using OpenCV
@@ -31,6 +31,7 @@ imagePaths = sorted(list(paths.list_images(args["input"])))
 for imagePath in imagePaths:
 	# load the input image from disk and resize it
 	image = cv2.imread(imagePath)
+	start = time.time()
 	image = imutils.resize(image, width=600)
 	# apply automatic license plate recognition
 	(lpText, lpCnt) = anpr.find_and_ocr(image, psm=args["psm"],
@@ -50,5 +51,6 @@ for imagePath in imagePaths:
 			cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2)
 		# show the output ANPR image
 		print("[INFO] {}".format(lpText))
+		print("calculating time",time.time()-start)
 		cv2.imshow("Output ANPR", image)
 		cv2.waitKey(0)
