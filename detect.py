@@ -4,7 +4,7 @@ import numpy as np
 import imutils
 import cv2
 class PyImageSearchANPR:
-	def __init__(self, minAR=4, maxAR=5, debug=False):
+	def __init__(self, minAR=2, maxAR=5, debug=False):
 		# store the minimum and maximum rectangular aspect ratio
 		# values along with whether or not we are in debug mode
 		self.minAR = minAR
@@ -82,6 +82,7 @@ class PyImageSearchANPR:
 			# the bounding box to derive the aspect ratio
 			(x, y, w, h) = cv2.boundingRect(c)
 			ar = w / float(h)
+			print(ar)
 			# check to see if the aspect ratio is rectangular
 			if ar >= self.minAR and ar <= self.maxAR:
 				# store the license plate contour and extract the
@@ -91,6 +92,7 @@ class PyImageSearchANPR:
 				licensePlate = gray[y:y + h, x:x + w]
 				roi = cv2.threshold(licensePlate, 0, 255,
 									cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+				print("whatt")
 				# check to see if we should clear any foreground
 				# pixels touching the border of the image
 				# (which typically, not but always, indicates noise)
@@ -122,9 +124,13 @@ class PyImageSearchANPR:
 		# license plate regions in the image, and then process the
 		# candidates, leaving us with the *actual* license plate
 		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+		#cv2.imshow("garara",gray)
+		#cv2.waitKey(0)
 		candidates = self.locate_license_plate_candidates(gray)
+		#print(candidates)
 		(lp, lpCnt) = self.locate_license_plate(gray, candidates,
 			clearBorder=clearBorder)
+		print(lp)
 		# only OCR the license plate if the license plate ROI is not
 		# empty
 		if lp is not None:
