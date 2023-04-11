@@ -5,7 +5,7 @@ import imutils
 import cv2
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 class PyImageSearchANPR:
-	def __init__(self, minAR=2, maxAR=5, debug=False):
+	def __init__(self, minAR=3, maxAR=4, debug=False):
 		# store the minimum and maximum rectangular aspect ratio
 		# values along with whether or not we are in debug mode
 		self.minAR = minAR
